@@ -3,11 +3,16 @@ package com.soen6611.app;
 import com.soen6611.model.DataGenerator;
 import com.soen6611.model.Statistics;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -45,9 +50,11 @@ public class MetricsticsApp extends Application {
         gridPane.add(dataSet, 0, 1, 7, 1);
 
         Button generateBtn = createOperatorButton("Generate Data");
+        TextField countField = new TextField("1000");
         generateBtn.setPrefWidth(100);
-        generateBtn.setOnAction(event -> initializeDataSet(dataSet));
-        gridPane.add(generateBtn, 0, 0, 7, 1);
+        generateBtn.setOnAction(event -> initializeDataSet(dataSet, countField));
+        gridPane.add(generateBtn, 0, 0, 3, 1);
+        gridPane.add(countField, 2, 0, 2, 1);
 
         Button minBtn = createOperatorButton("m"); // min
         gridPane.add(minBtn, 0, 2);
@@ -114,8 +121,17 @@ public class MetricsticsApp extends Application {
         stage.show();
     }
 
-    private void initializeDataSet(TextArea dataSet) {
-        int[] data = DataGenerator.generate(1000);
+    private void initializeDataSet(TextArea dataSet, TextField countField) {
+        int n;
+        Alert alert = new Alert(AlertType.INFORMATION);
+        try {
+            n = Integer.parseInt(countField.getText());
+        } catch(Exception e) {
+            alert.setContentText("Invalid number. It must be an integer and its range should be between 1 and 2147483647.");
+            alert.showAndWait();
+            return;
+        }
+        int[] data = DataGenerator.generate(n);
         statistics.setData(data);
         dataSet.setText(Arrays.toString(data).replace("[", "").replace("]", ""));
     }
