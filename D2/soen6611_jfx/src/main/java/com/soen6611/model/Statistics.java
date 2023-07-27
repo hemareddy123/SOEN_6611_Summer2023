@@ -1,8 +1,11 @@
 package com.soen6611.model;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -206,6 +209,7 @@ public class Statistics {
 
     public void calculateAndDisplay(Label display, String method) {
         String result = "";
+        Alert alert = new Alert(AlertType.INFORMATION);
         try {
             switch(method) {
                 case "m":
@@ -232,12 +236,14 @@ public class Statistics {
             }
             display.setText(result);
         } catch (Exception e) {
-            display.setText(e.getMessage());
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 
     public void calculateAll(List<Label> allDisplays) {
         String result;
+        Alert alert = new Alert(AlertType.INFORMATION);
         try {
             result = this.getMin();
             allDisplays.get(0).setText(result);
@@ -254,7 +260,8 @@ public class Statistics {
             result = this.getStandardDeviation();
             allDisplays.get(6).setText(result);
         } catch (Exception e) {
-
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 }
