@@ -1,7 +1,10 @@
 package com.soen6611.model;
 
+import javafx.scene.control.Label;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Statistics {
     private int[] data;
@@ -199,5 +202,59 @@ public class Statistics {
         }
 
         return newGuess;
+    }
+
+    public void calculateAndDisplay(Label display, String method) {
+        String result = "";
+        try {
+            switch(method) {
+                case "m":
+                    result = this.getMin();
+                    break;
+                case "M":
+                    result = this.getMax();
+                    break;
+                case "o":
+                    result = this.getMode();
+                    break;
+                case "d":
+                    result = this.getMedian();
+                    break;
+                case "μ":
+                    result = this.getArithmeticMean();
+                    break;
+                case "MAD":
+                    result = this.getMeanAbsoluteDeviation();
+                    break;
+                case "σ":
+                    result = this.getStandardDeviation();
+                    break;
+            }
+            display.setText(result);
+        } catch (Exception e) {
+            display.setText(e.getMessage());
+        }
+    }
+
+    public void calculateAll(List<Label> allDisplays) {
+        String result;
+        try {
+            result = this.getMin();
+            allDisplays.get(0).setText(result);
+            result = this.getMax();
+            allDisplays.get(1).setText(result);
+            result = this.getMode();
+            allDisplays.get(2).setText(result);
+            result = this.getMedian();
+            allDisplays.get(3).setText(result);
+            result = this.getArithmeticMean();
+            allDisplays.get(4).setText(result);
+            result = this.getMeanAbsoluteDeviation();
+            allDisplays.get(5).setText(result);
+            result = this.getStandardDeviation();
+            allDisplays.get(6).setText(result);
+        } catch (Exception e) {
+
+        }
     }
 }
